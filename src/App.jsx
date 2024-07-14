@@ -1,21 +1,32 @@
-import Sidebar from "./components/Sidebar"
 import Body from "./components/Body"
-import Player from "./components/Player"
-import { useContext } from "react"
+import Register from './components/Register'
+import Login from './components/Login'
+import { useContext} from "react"
 import { PlayerContext } from "./utils/PlayerContext"
+import { Route , Routes } from "react-router-dom"
+import {Toaster} from 'react-hot-toast'
 
 function App() {
 
-  const {audioRef , track} = useContext(PlayerContext);
+  const {audioRef , track , songList} = useContext(PlayerContext);
 
   return (
    <>
-   <div className='app bg-black font-abc text-white'>
-    <Sidebar/>
-    <Body/>
+   {
+    songList?.length !== 0 && 
+    <>
+    <div className='app bg-black font-abc text-white'>
+    <Routes>
+        <Route path='/*' element={<Body/>}/> 
+        <Route path='/signup' element={<Register/>}/> 
+        <Route path='/login' element={<Login/>}/>
+    </Routes>
    </div>
-   <Player/>
-   <audio ref={audioRef} src={track.file} preload="auto"></audio>
+   <audio ref={audioRef} src={track ? track.file : ""} preload="auto"></audio>
+   <Toaster/>
+    </>
+  
+   }
    </>
   )
 }

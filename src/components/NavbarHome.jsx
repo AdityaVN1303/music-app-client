@@ -1,10 +1,32 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { assets } from '../assets/frontend-assets/assets';
+import { PROXY_URL } from '../utils/constants';
 
 const DisplayNav = () => {
 
     const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+
+    
+  useEffect(() => {
+    const getMe = async ()=>{
+      const response = await fetch(`${PROXY_URL}/api/user/me` , {
+        credentials : 'include'
+      });
+      const data = await response.json();
+      // console.log(data);
+      if (response.ok) {
+        setUser(data);
+      }
+
+      if (data.error) {
+        navigate("/login");
+      }
+
+    }
+    getMe();
+  }, [])
 
     return (
         <>
@@ -14,15 +36,8 @@ const DisplayNav = () => {
                     <img onClick={() => navigate(1)} className='w-8 bg-black p-2 rounded-2xl cursor-pointer' src={assets.arrow_right} alt="right-img" />
                 </div>
                 <div className='flex items-center gap-4'>
-                    <p className='bg-white text-black text-[15px] px-4 py-1 rounded-2xl hidden md:block'>Explore Premium</p>
-                    <p className='bg-black py-1 px-3 rounded-2xl text-[15px]'>Install App</p>
-                    <p className='bg-purple-500 text-black w-7 h-7 rounded-full flex items-center justify-center'>D</p>
+                    <Link to="/profile" className='bg-purple-500 text-black cursor-pointer w-10 h-10 rounded-full flex items-center justify-center'><img className='w-full h-full object-cover rounded-full' src={user?.profileImg ? user?.profileImg : "https://cdn-icons-png.flaticon.com/512/149/149071.png"} alt="profile-img" /></Link>
                 </div>
-            </div>
-            <div className='flex items-center gap-2 mt-4'>
-                <p className='bg-white text-black px-4 py-1 rounded-2xl'>All</p>
-                <p className='bg-black px-4 py-1 rounded-2xl'>Music</p>
-                <p className='bg-black px-4 py-1 rounded-2xl'>Podcasts</p>
             </div>
         </>
     )
