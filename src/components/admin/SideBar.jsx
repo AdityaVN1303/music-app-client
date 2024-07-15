@@ -28,7 +28,7 @@ const Sidebar = () => {
         <div className='bg-[#003A10] min-h-screen pl-[4vw]'>
 
             <Link to="/"><img src={assets.logo}  alt="" className="mt-5 w-[max(10vw,100px)] hidden sm:block" /></Link>
-            <img src={assets.logo_small} alt="" className="mt-5 w-[max(5vw,40px)] mr-5 sm:hidden block" />
+            <Link to="/"><img src={assets.logo_small} alt="" className="mt-5 w-[max(5vw,40px)] mr-5 sm:hidden block" /></Link>
 
             <div className="flex flex-col gap-5 mt-10">
 
