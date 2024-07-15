@@ -52,20 +52,20 @@ const Sidebar = () => {
         </div>
         <div className="lib">
         <div className='p-4 lg:p-4 flex justify-between items-center'>
-                <div className='flex justify-start items-center space-x-1 hover:bg-[#ffffff2b] rounded-md'>
+                <Link to="/profile" className='flex justify-start items-center space-x-2 hover:bg-[#ffffff2b] rounded-md'>
                 <img src={assets.stack_icon} className='w-8' alt="lib-icon" />
                 <p className='hidden lg:block font-bold'>Your Library</p>
-                </div>
                 <img src={assets.arrow_icon} className='w-8 lg:block hidden hover:bg-[#ffffff2b] rounded-md p-1' alt="arrow-icon" />
+                </Link>
             </div>
-            <div className="add">
+            <Link to="/create-playlist" className="add">
             <img src={assets.plus_icon} className='w-8 mx-auto lg:hidden my-5 bg-blue-400 p-2 text-xl rounded-full' alt="plus-icon" />
            <div className="subclass hidden lg:block bg-[#242424] rounded-md mt-5 mx-2 px-3 py-2 space-y-2">
            <h1 className='text-lg font-bold'>Create New Playlist</h1>
             <p className=''>Its easy , we will help you</p>
             <button className='bg-white rounded-md p-1 hover:bg-[#ffffff2b] hover:text-white text-black'>Create Playlist</button>
            </div>
-            </div>
+            </Link>
 
            <div onClick={logout} className='flex justify-start lg:p-4 mt-20  items-center space-x-1 hover:bg-[#ffffff2b] rounded-md'>
            <RiLogoutBoxLine className='text-3xl mx-auto lg:mx-0'/>

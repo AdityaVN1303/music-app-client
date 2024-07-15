@@ -1,15 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaRegEdit, FaRegUser } from 'react-icons/fa'
 import NavbarHome from './NavbarHome'
 import { differenceInDays } from 'date-fns';
+import LikedAlbums from './LikedAlbums';
+import Playlist from './Playlist';
+import { PROXY_URL } from '../utils/constants';
+import {toast} from 'react-hot-toast'
 
 const Profile = ({user}) => {
 
+    const [playlist, setPlaylist] = useState([]);
+    const [feedType, setFeedType] = useState("albums");
+
     // console.log(user);
-    const timestamp = new Date(user.createdAt);
+    const timestamp = new Date(user?.createdAt);
     const today = new Date();
     const daysAgo = Math.floor(differenceInDays(today, timestamp));
+
+    useEffect(() => {
+      const getPlaylist = async ()=>{
+        try {
+            const response = await fetch(`${PROXY_URL}/api/playlist/list` , {
+                credentials : 'include'
+            })
+            const data = await response.json();
+
+            if (!response.ok) {
+                // toast(data.error);
+                return;
+            }
+
+            // console.log(data?.message);
+            setPlaylist(data.message);
+
+        } catch (error) {
+            console.log(error);
+        }
+      }
+      getPlaylist();
+    }, []);
 
   return (
     <>
@@ -31,23 +61,35 @@ const Profile = ({user}) => {
             </div>
         </div>
         }
-        <div className="my-blogs mt-10 space-y-10">
-            <h1 className='font-bold text-3xl mb-10'>My Liked Albums</h1>
+        <div className='mt-10'>
+        <div className='top flex w-full border-b border-gray-700'>
+					<div
+						className={
+							"flex justify-center flex-1 p-3 hover:bg-secondary transition duration-300 cursor-pointer relative"
+						}
+						onClick={() => setFeedType("albums")}
+					>
+						LikedAlbums
+						{feedType === "albums" && (
+							<div className='absolute bottom-0 w-10  h-1 rounded-full bg-blue-500'></div>
+						)}
+					</div>
+					<div
+						className='flex justify-center flex-1 p-3 hover:bg-secondary transition duration-300 cursor-pointer relative'
+						onClick={() => setFeedType("playlists")}
+					>
+						My Playlists
+						{feedType === "playlists" && (
+							<div className='absolute bottom-0 w-10  h-1 rounded-full bg-blue-500'></div>
+						)}
+					</div>
+		</div>
+        <div className="bottom my-8">
             {
-             user?.likedPosts.length !== 0 ?  user?.likedPosts?.map((item, index) => {
-                return (
-                    <Link to={`/album/${item?._id}`} className='grid grid-cols-3 sm:grid-cols-2 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer' key={index}>
-                        <p className='text-white'>
-                            <b className='mr-4 text-[#a7a7a7]'>{index + 1}</b>
-                            <img className='inline w-10 mr-5' src={item?.image} alt="" />
-                            {item?.name}
-                        </p>
-                        <p className='text-[15px]'>{item?.desc}</p>
-                    </Link>
-                )
-            }) : <h1 className='text-center font-bold text-xl'>You haven't Liked Any Albums</h1>
-        }
-           
+                feedType === "albums" ? <LikedAlbums user={user}/> : <Playlist playlist={playlist}/>
+             }
+        </div>
+
         </div>
     </div>
     </>

@@ -7,6 +7,13 @@ const AddSong = () => {
 
   const [albums, setAlbums] = useState([]);
 
+  const [image, setImage] = useState(false);
+  const [song, setSong] = useState(false);
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
+  const [album, setAlbum] = useState("none");
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const getAlbums = async ()=>{
       try {
@@ -34,14 +41,6 @@ const AddSong = () => {
     }
     getAlbums();
   }, [])
-  
-
-  const [image, setImage] = useState(false);
-  const [song, setSong] = useState(false);
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [album, setAlbum] = useState("none");
-  const [loading, setLoading] = useState(false);
 
   const onSubmitHandler = async (e) => {
 

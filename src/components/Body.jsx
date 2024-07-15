@@ -18,6 +18,11 @@ import Home from './admin/Home';
 import EditAlbum from './admin/EditAlbum'
 import EditSong from './admin/EditSong'
 import Search from './Search'
+import Playlist from './Playlist'
+import DisplayPlaylist from './DisplayPlaylist'
+import AddPlaylistSongs from './AddPlaylistSongs'
+import EditPlaylist from './EditPlaylist'
+import CreatePlaylist from './CreatePlaylist'
 
 const Body = () => {
 
@@ -32,7 +37,11 @@ const Body = () => {
   useEffect(() => {
     const getMe = async ()=>{
       const response = await fetch(`${PROXY_URL}/api/user/me` , {
-        credentials : 'include'
+        credentials : 'include',
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+      }
       });
       const data = await response.json();
       // console.log(data);
@@ -54,8 +63,13 @@ const Body = () => {
         <Route path='/' element={<BodyHome User={user}/>}/> 
         <Route path='/profile' element={<Profile user={user}/>}/>
         <Route path='/update' element={<EditProfile/>}/> 
+        <Route path='/playlist/update/:id' element={<EditPlaylist/>}/>
+        <Route path='/create-playlist' element={<CreatePlaylist/>}/>
         <Route path='/album/:id' element={<DisplayAlbum/>}/> 
+        <Route path='/playlist/:id' element={<DisplayPlaylist/>}/> 
+        <Route path='/playlist/add-song/:id' element={<AddPlaylistSongs/>}/> 
         <Route path='/search' element={<Search/>}/> 
+        <Route path='/playlists' element={<Playlist/>}/> 
         {user?.isAdmin && 
         <Route path="/admin" element={<AdminPanel/>}>
             <Route index path="/admin" element={<Home/>} />
