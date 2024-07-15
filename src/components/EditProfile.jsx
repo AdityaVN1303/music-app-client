@@ -89,7 +89,7 @@ const Edit = () => {
    {
     loading ? <Spinner/> :  <div class="p-10 text-black">
     <h1 class="mb-8 font-extrabold text-4xl text-white">Update Profile</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-screen">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 min-h-screen">
 
         <form onSubmit={handleSubmit} method="post" enctype="multipart/form-data">
         
