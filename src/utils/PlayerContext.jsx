@@ -15,7 +15,11 @@ const PlayerContextProvider = (props) => {
       const getSongs = async ()=>{
         try {
             const response = await fetch(`${PROXY_URL}/api/song/list` , {
-                credentials : 'include'
+                credentials : 'include',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true,
+                }
             })
             const data = await response.json();
             if (data?.error) {
